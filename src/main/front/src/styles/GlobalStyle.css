@@ -1,0 +1,207 @@
+/* src/styles/GlobalStyle.css */
+
+@font-face {
+    font-family: 'RoundedFixedsys';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+:root {
+    /* 레퍼런스 기반 컬러 팔레트 */
+    --win-bg: #ececec;      /* 윈도우 기본 회색 */
+    --win-blue: #000080;    /* 윈도우 타이틀바 남색 */
+    --win-gray-light: #FFFFFF;
+    --win-gray-dark: #808080;
+    --win-black: #000000;
+
+    /* Y2K 포인트 컬러 (키치함 추가) */
+    --hot-pink: #FF69B4;
+    --pastel-blue: #ADD8E6;
+    --pixel-font: 'RoundedFixedsys', monospace;
+}
+
+* {
+    font-family: var(--pixel-font) !important;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 배경: 레퍼런스의 '모눈종이(Grid)' 패턴 구현 */
+    background-color: #f2e6ff; /* 연한 보라빛 베이스 */
+    background-image:
+            linear-gradient(rgba(88, 88, 255, 0.2) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(88, 88, 255, 0.2) 1px, transparent 1px);
+    background-size: 30px 30px; /* 격자 크기 */
+
+    overflow: hidden;
+}
+
+/* 윈도우 창 컨테이너 (레퍼런스의 Error Message 스타일) */
+.y2k-container {
+    background: var(--win-bg);
+    width: 380px;
+    padding: 4px; /* 테두리와 내용 사이 간격 */
+
+    /* 윈도우 95 특유의 입체 테두리 (Bevel Effect) */
+    border-top: 2px solid var(--win-gray-light);
+    border-left: 2px solid var(--win-gray-light);
+    border-right: 2px solid var(--win-black);
+    border-bottom: 2px solid var(--win-black);
+
+    /* 하드한 그림자 (Pixel Shadow) */
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 윈도우 타이틀바 (파란색 바) */
+.window-header {
+    background: linear-gradient(90deg, var(--win-blue), #1084d0);
+    padding: 6px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* 타이틀바 오른쪽 [X] 버튼 흉내 */
+.window-header::after {
+    content: "✕";
+    background: #c0c0c0;
+    color: black;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 18px;
+    font-size: 14px;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+    box-shadow: inset 1px 1px 0px white;
+}
+
+.y2k-header-group {
+    display: flex;
+    flex-direction: column; /* 위아래로 배치 */
+    align-items: center;    /* 가운데 정렬 */
+    justify-content: center;
+    margin-bottom: 25px;    /* 아래 입력창과의 간격 */
+    gap: 8px;              /* 제목과 서브텍스트 사이의 간격 (행간 조절) */
+}
+
+.y2k-title {
+    font-size: 2rem;
+    margin: 10px 0 30px 0;
+    color: var(--win-black);
+    text-align: center;
+    text-shadow: 2px 2px 0px #ccc;
+}
+
+.y2k-title::before {
+    content: "★ ";
+    color: var(--hot-pink);
+}
+
+.y2k-title::after {
+    content: " ★";
+    color: var(--hot-pink);
+}
+
+.y2k-subtitle {
+    font-size: 0.85rem;
+    margin: 0;
+    color: #444;           /* 너무 검정색보다는 진회색이 세련됨 */
+    letter-spacing: -0.5px;
+    word-break: keep-all;  /* 줄바꿈 시 단어 안 잘리게 */
+}
+
+/* 입력창: 안으로 파인 느낌 (Inset) */
+.y2k-input {
+    width: calc(100% - 20px); /* 패딩 고려 */
+    margin: 0 auto 15px auto;
+    display: block;
+    padding: 10px;
+    font-size: 1rem;
+    background: white;
+    border: 0;
+
+    /* Inset 테두리 효과 */
+    border-top: 2px solid var(--win-black);
+    border-left: 2px solid var(--win-black);
+    border-right: 2px solid var(--win-gray-light);
+    border-bottom: 2px solid var(--win-gray-light);
+
+    outline: none;
+}
+
+.y2k-input:focus {
+    background: #fffbe6; /* 포커스 시 연한 노랑 */
+}
+
+/* 버튼: 튀어나온 느낌 (Outset) */
+.y2k-button {
+    width: calc(100% - 20px);
+    margin: 10px auto;
+    display: block;
+    padding: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background: var(--win-bg);
+    color: black;
+
+    /* 윈도우 버튼 입체감 */
+    border-top: 2px solid var(--win-gray-light);
+    border-left: 2px solid var(--win-gray-light);
+    border-right: 2px solid var(--win-black);
+    border-bottom: 2px solid var(--win-black);
+
+    transition: none; /* 레트로함 위해 애니메이션 제거 */
+}
+
+/* 버튼 클릭 효과: 눌린 느낌 */
+.y2k-button:active {
+    background: var(--hot-pink);
+    border-top: 2px solid var(--win-black);
+    border-left: 2px solid var(--win-black);
+    border-right: 2px solid var(--win-gray-light);
+    border-bottom: 2px solid var(--win-gray-light);
+    transform: translate(1px, 1px);
+}
+
+.y2k-button:hover{
+    border-top: 2px solid var(--win-black);
+    border-left: 2px solid var(--win-black);
+    border-right: 2px solid var(--win-gray-light);
+    border-bottom: 2px solid var(--win-gray-light);
+    transform: translate(1px, 1px);
+}
+
+/* 링크 텍스트 */
+.link-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.link-text:hover {
+    color: white;
+    background: var(--hot-pink); /* 텍스트 드래그한 느낌 */
+}
