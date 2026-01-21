@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // 1. useNavigate 추가
 import '../styles/GlobalStyle.css';
+import axios from 'axios';
+
 
 const Login = () => { // 2. (setPage) 인자 제거
     const navigate = useNavigate(); // 3. navigate 함수 생성
@@ -12,10 +14,26 @@ const Login = () => { // 2. (setPage) 인자 제거
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         console.log("로그인 시도:", formData);
-        alert("Y2K 인스타에 오신 걸 환영합니다!");
+
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/login', {
+                userId: formData.userId,
+                password: formData.password
+            });
+
+            if(response.status === 200) {
+                alert("Retrogram에 오신 걸 환영합니다!");
+                // 로그인 정보를 로컬 스토리지 등에 저장하거나 메인으로 이동
+                localStorage.setItem("user", JSON.stringify(response.data));
+                window.location.href = "/main";
+            }
+        } catch (error) {
+            alert(error.response.data);
+        }
+
     };
 
     return (

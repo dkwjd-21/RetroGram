@@ -14,14 +14,41 @@ const Signup = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSignup = (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert("비밀번호가 일치하지 않아요! ㅠ_ㅠ");
             return;
         }
-        alert("회원가입 완료! 로그인을 해주세요.");
-        navigate('/login'); // 회원가입 후 로그인 페이지로 이동
+
+        try {
+            // 백엔드 컨트롤러로 데이터 전송
+            const response = await fetch('http://localhost:8080/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    // JSON 형태로 전송
+                    'Content-Type' : 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: formData.userId,
+                    email: formData.email,
+                    password: formData.password
+                }),
+            });
+
+            if (response.ok) {
+                // 회원가입 성공
+                alert("회원가입 완료! 로그인을 해주세요.");
+                navigate('/login');
+            } else {
+                // 백엔드에서 에러메시지를 보냄
+                const errorMsg = await response.text();
+                alert("가입 실패 : "+errorMsg);
+            }
+        } catch (error) {
+            console.error("통신 에러 발생: ", error);
+            alert("서버 연결 실패..ㅠㅠ");
+        }
     };
 
     return (
