@@ -40,7 +40,7 @@ body {
             linear-gradient(90deg, rgba(88, 88, 255, 0.2) 1px, transparent 1px);
     background-size: 30px 30px; /* 격자 크기 */
 
-    overflow: hidden;
+    overflow: auto;
 }
 
 /* 윈도우 창 컨테이너 (레퍼런스의 Error Message 스타일) */

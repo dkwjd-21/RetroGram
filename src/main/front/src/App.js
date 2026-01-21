@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Main from './pages/Main';
 import './styles/GlobalStyle.css';
 
 // 라우팅 설정
@@ -21,6 +22,9 @@ function App() {
 
           {/* 회원가입 페이지 */}
           <Route path="/signup" element={<Signup />} />
+
+          {/* 메인피드 페이지 */}
+          <Route path="/main" element={<Main />} />
 
           {/* 404 페이지 처리 (잘못된 경로 접근 시 로그인으로 리다이렉트) */}
           <Route path="*" element={<Navigate to="/login" />} />
