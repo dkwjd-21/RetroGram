@@ -65,7 +65,7 @@ body {
 
 /* 윈도우 타이틀바 (파란색 바) */
 .window-header {
-    background: linear-gradient(90deg, var(--win-blue), #1084d0);
+    background: linear-gradient(90deg, #c71585, var(--hot-pink));
     padding: 6px 8px;
     display: flex;
     justify-content: space-between;
