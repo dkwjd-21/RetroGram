@@ -1,14 +1,25 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Sidebar = () => {
+const Sidebar = ({ openModal }) => {
+    const navigate = useNavigate();
+
     const menus = [
-        { icon: '🏠', name: '홈' },
-        { icon: '🔍', name: '검색' },
-        { icon: '✉️', name: '메시지' },
-        { icon: '🔔', name: '알림' },
-        { icon: '➕', name: '만들기' },
-        { icon: '👤', name: '프로필' }
+        { icon: '🏠', name: '홈', path: '/main' },
+        { icon: '🔍', name: '검색', path: '#' },
+        { icon: '✉️', name: '메시지', path: '#' },
+        { icon: '🔔', name: '알림', path: '#' },
+        { icon: '➕', name: '만들기', action: 'openModal' },
+        { icon: '👤', name: '프로필', path: '#' }
     ];
+
+    const handleHomeClick = () => {
+        if (window.location.pathname === '/main') {
+            window.location.href = '/main'; // 같은 경로면 강제 새로고침
+        } else {
+            navigate('/main');
+        }
+    };
 
     return (
         <aside className="y2k-container" style={{ width: '220px', position: 'sticky', top: '20px' }}>
@@ -16,7 +27,20 @@ const Sidebar = () => {
             <h2 className="y2k-title" style={{ fontSize: '1.2rem', margin: '10px 0' }}>Retro</h2>
             <div style={{ padding: '10px' }}>
                 {menus.map((menu, index) => (
-                    <p key={index} className="link-text" style={{ textAlign: 'left', marginTop: '5px' }}>
+                    <p
+                        key={index}
+                        className="link-text"
+                        style={{ textAlign: 'left', marginTop: '5px', cursor: 'pointer' }}
+                        onClick={() => {
+                            if(menu.action === 'openModal') {
+                                openModal();
+                            } else if(menu.name === '홈') {
+                                handleHomeClick();
+                            } else {
+                                navigate(menu.path)
+                            }
+                        }}
+                    >
                         {menu.icon} {menu.name}
                     </p>
                 ))}

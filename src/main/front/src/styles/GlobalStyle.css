@@ -90,7 +90,7 @@ body {
     border-left: 1px solid white;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
-    cursor: pointer;
+    /*cursor: pointer;*/
     box-shadow: inset 1px 1px 0px white;
 }
 
@@ -204,4 +204,17 @@ body {
 .link-text:hover {
     color: white;
     background: var(--hot-pink); /* 텍스트 드래그한 느낌 */
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); /* 검정색 오버레이 */
+    display: flex;
+    justify-content: center; /* 가로 중앙 */
+    align-items: center;     /* 세로 중앙 */
+    z-index: 1000;
 }

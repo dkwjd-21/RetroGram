@@ -5,7 +5,9 @@ import com.instagram.clone.service.FeedService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,5 +20,14 @@ public class FeedController {
     @GetMapping
     public List<Feed> getFeeds() {
         return feedService.getAllFeeds();
+    }
+
+    @PostMapping("/create")
+    public void createFeed(
+            @RequestParam("userId") String userId,
+            @RequestParam("content") String content,
+            @RequestParam("image") MultipartFile image
+            ) throws IOException {
+        feedService.createFeed(userId, content, image);
     }
 }

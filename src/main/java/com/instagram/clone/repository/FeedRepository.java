@@ -4,9 +4,6 @@ import com.instagram.clone.entity.Feed;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
-import java.util.List;
-
 @Repository
 public interface FeedRepository extends JpaRepository<Feed, Long> {
     // JpaRepository<엔티티이름, PK의타입>

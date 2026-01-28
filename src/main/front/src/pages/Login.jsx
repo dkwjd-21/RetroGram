@@ -26,12 +26,17 @@ const Login = () => { // 2. (setPage) 인자 제거
 
             if(response.status === 200) {
                 alert("Retrogram에 오신 걸 환영합니다!");
-                // 로그인 정보를 로컬 스토리지 등에 저장하거나 메인으로 이동
-                localStorage.setItem("user", JSON.stringify(response.data));
+                // 로그인 정보를 로컬 스토리지에 저장
+                localStorage.setItem("user", response.data.userId);
                 window.location.href = "/main";
             }
         } catch (error) {
-            alert(error.response.data);
+            if (error.response && error.response.data) {
+                alert(error.response.data); // 서버가 보낸 에러 메시지
+            } else {
+                alert("서버와 연결할 수 없습니다. 백엔드 서버가 켜져 있는지 확인하세요!");
+            }
+            console.error("로그인 에러 상세:", error);
         }
 
     };
