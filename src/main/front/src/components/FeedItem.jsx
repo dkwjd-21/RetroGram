@@ -1,6 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-const FeedItem = ({ feed }) => {
+const FeedItem = ({ feed, onEdit, onDelete, onReport }) => {
+    // 메뉴 오픈 상태
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    // 메뉴 바깥 클릭 시 닫히게 하거나, 버튼 클릭 시 토글
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    // 현재 로그인한 유저 정보, 피드의 작성자 일치 여부
+    const loginUser = localStorage.getItem("user");
+    const isOwner = loginUser === feed.userId;
+
     // 메인 이미지 경로 결정 (이미지 배열이 비어있을 경우 대비)
     const mainImage = feed.images && feed.images.length > 0
         ? feed.images[0].imageUrl
@@ -47,7 +56,40 @@ const FeedItem = ({ feed }) => {
                     <span style={{ fontWeight: 'bold' }}>{feed.userId}</span>
                     <span style={{ fontSize: '0.8rem', color: '#808080' }}>• {displayTime}</span>
                 </div>
-                <span style={{ cursor: 'pointer', padding: '0 5px' }}>•••</span>
+
+                {/* 점 세개 버튼 */}
+                <div style={{ position: 'relative' }}>
+                    <span
+                        style={{ cursor: 'pointer', padding: '0 5px', fontSize: '1.2rem' }}
+                        onClick={toggleMenu}
+                    >
+                        •••
+                    </span>
+
+                    {/* 팝업 메뉴 */}
+                    {isMenuOpen && (
+                        <div className="y2k-container" style={{
+                            position: 'absolute',
+                            right: 0,
+                            top: '25px',
+                            width: '100px',
+                            zIndex: 10,
+                            background: '#c0c0c0',
+                            boxShadow: '2px 2px 0px white inset, -2px -2px 0px #808080 inset'
+                        }}>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                {isOwner ? (
+                                    <>
+                                        <button className="menu-item-btn" onClick={() => { onEdit(feed); setIsMenuOpen(false); }}>수정</button>
+                                        <button className="menu-item-btn" onClick={() => { onDelete(feed.id); setIsMenuOpen(false); }}>삭제</button>
+                                    </>
+                                ) : (
+                                    <button className="menu-item-btn" onClick={() => { onReport(feed.id); setIsMenuOpen(false); }}>신고</button>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* 메인 이미지 */}

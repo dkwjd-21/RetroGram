@@ -39,4 +39,8 @@ public class Feed {
     // 피드 이미지
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedImage> images = new ArrayList<>();
+
+    public void update(String content) {
+        this.content = content;
+    }
 }

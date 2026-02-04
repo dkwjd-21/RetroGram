@@ -1,5 +1,6 @@
 package com.instagram.clone.service;
 
+import com.instagram.clone.dto.FeedUpdateDto;
 import com.instagram.clone.entity.Feed;
 import com.instagram.clone.entity.FeedImage;
 import com.instagram.clone.repository.FeedImageRepository;
@@ -10,8 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -65,5 +66,24 @@ public class FeedService {
                     .build();
             feedImageRepository.save(feedImage);
         }
+    }
+
+    // 피드 업데이트
+    @Transactional
+    public void updateFeed(Long id, FeedUpdateDto updateDto) {
+        Feed feed = feedRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다."));
+
+        // 더티 체킹(Dirty Checking)을 이용한 내용 수정
+        feed.update(updateDto.getContent());
+    }
+
+    // 피드 삭제
+    @Transactional
+    public void deleteFeed(Long id) {
+        Feed feed = feedRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다."));
+
+        feedRepository.delete(feed);
     }
 }
