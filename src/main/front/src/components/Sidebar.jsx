@@ -1,16 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({ openModal }) => {
+const Sidebar = ({ openModal, setView, view, onProfileClick }) => {
     const navigate = useNavigate();
 
     const menus = [
-        { icon: '🏠', name: '홈', path: '/main' },
+        { icon: '🏠', name: '홈', action: 'setHome' },
         { icon: '🔍', name: '검색', path: '#' },
         { icon: '✉️', name: '메시지', path: '#' },
         { icon: '🔔', name: '알림', path: '#' },
         { icon: '➕', name: '만들기', action: 'openModal' },
-        { icon: '👤', name: '프로필', path: '#' }
+        { icon: '👤', name: '프로필', action: 'setProfile' }
     ];
 
     const handleHomeClick = () => {
@@ -32,12 +32,21 @@ const Sidebar = ({ openModal }) => {
                         className="link-text"
                         style={{ textAlign: 'left', marginTop: '5px', cursor: 'pointer' }}
                         onClick={() => {
-                            if(menu.action === 'openModal') {
+                            // 메뉴별 액션 분기 처리
+                            if (menu.action === 'openModal') {
                                 openModal();
-                            } else if(menu.name === '홈') {
-                                handleHomeClick();
+                            } else if (menu.action === 'setHome') {
+                                // 현재 뷰가 이미 home이라면 새로고침, 아니면 뷰 전환
+                                if (view === 'home') {
+                                    window.location.reload();
+                                } else {
+                                    setView('home');
+                                }
+                            } else if (menu.action === 'setProfile') {
+                                setView('profile');
+                                onProfileClick();
                             } else {
-                                navigate(menu.path)
+                                navigate(menu.path);
                             }
                         }}
                     >

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const FeedItem = ({ feed, onEdit, onDelete, onReport }) => {
+const FeedItem = ({ feed, onEdit, onDelete, onReport,onUserClick }) => {
     // 메뉴 오픈 상태
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     // 메뉴 바깥 클릭 시 닫히게 하거나, 버튼 클릭 시 토글
@@ -53,7 +53,10 @@ const FeedItem = ({ feed, onEdit, onDelete, onReport }) => {
                         alt="profile"
                         style={{ width: '35px', height: '35px', borderRadius: '50%', objectFit: 'cover', border: '1px solid black' }}
                     />
-                    <span style={{ fontWeight: 'bold' }}>{feed.userId}</span>
+                    <span style={{ fontWeight: 'bold', cursor:'pointer' }}
+                          onClick={onUserClick}>
+                        {feed.userId}
+                    </span>
                     <span style={{ fontSize: '0.8rem', color: '#808080' }}>• {displayTime}</span>
                 </div>
 
