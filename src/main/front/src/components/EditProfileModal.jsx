@@ -11,7 +11,7 @@ const EditProfileModal = ({ isOpen, onClose, userInfo, refreshProfile }) => {
     useEffect(() => {
         if (userInfo) {
             setBio(userInfo.bio || "");
-            setIsPrivate(userInfo.isPrivate === 1);
+            setIsPrivate(!!userInfo.isPrivate || userInfo.isPrivate === 1);
             setPreviewImg(userInfo.imgUrl || "/sampleImg1.jpg"); // 기존 이미지 세팅
         }
     }, [userInfo, isOpen]);

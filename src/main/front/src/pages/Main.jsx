@@ -6,6 +6,7 @@ import CreatePostModal from "../components/CreatePostModal";
 import EditPostModal from "../components/EditPostModal";
 import Profile from "../components/Profile";
 import EditProfileModal from "../components/EditProfileModal";
+import LogoutButton from "../components/LogoutButton";
 import '../styles/GlobalStyle.css';
 
 const Main = () => {
@@ -74,13 +75,25 @@ const Main = () => {
 
     return (
         <div style={{ display: 'flex', padding: '20px', gap: '30px', alignItems: 'flex-start', justifyContent: 'center', minHeight: '100vh' }}>
-            <Sidebar
-                openModal={() => setIsModalOpen(true)}
-                setView={setView}
-                view={view}
-                onProfileClick={handleMyProfileClick}
-            />
+            {/* 왼쪽 섹션 */}
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '220px',
+                position: 'sticky',
+                top: '20px',
+                height: 'fit-content'
+            }}>
+                <Sidebar
+                    openModal={() => setIsModalOpen(true)}
+                    setView={setView}
+                    view={view}
+                    onProfileClick={handleMyProfileClick}
+                />
+                <LogoutButton />
+            </div>
 
+            {/* 오른쪽 섹션 */}
             <main style={{ flex: 'none', width: '500px', display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'center' }}>
                 {view === 'home' ? (
                     // 기존 피드 리스트
