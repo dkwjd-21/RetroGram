@@ -5,7 +5,7 @@ import com.instagram.clone.entity.Feed;
 import com.instagram.clone.entity.FeedImage;
 import com.instagram.clone.repository.FeedImageRepository;
 import com.instagram.clone.repository.FeedRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

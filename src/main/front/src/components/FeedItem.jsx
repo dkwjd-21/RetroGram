@@ -1,10 +1,16 @@
 import React, {useState} from 'react';
+import axios from "axios";
 
 const FeedItem = ({ feed, onEdit, onDelete, onReport,onUserClick }) => {
     // 메뉴 오픈 상태
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     // 메뉴 바깥 클릭 시 닫히게 하거나, 버튼 클릭 시 토글
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    // 댓글
+    const [commentContent, setCommentContent] = useState("");
+    // 좋아요 관리
+    const [liked, setLiked] = useState(feed.isLiked || false); // 내가 좋아요 눌렀는지 여부
+    const [likeCount, setLikeCount] = useState(feed.likes || 0); // 좋아요 개수
 
     // 현재 로그인한 유저 정보, 피드의 작성자 일치 여부
     const loginUser = localStorage.getItem("user");
@@ -42,6 +48,50 @@ const FeedItem = ({ feed, onEdit, onDelete, onReport,onUserClick }) => {
     const displayTime = feed.uploadTime
         ? getRelativeTime(feed.uploadTime)
         : '시간 정보 없음';
+
+    // 댓글 작성
+    const handleCommentSubmit = async (e) => {
+        e.preventDefault();
+        if (!commentContent.trim()) return;
+
+        try {
+            const response = await axios.post('/api/comments', {
+                feedId: feed.id,
+                userNum: localStorage.getItem("userNum"), // DB 설계를 위해 userNum 저장 필수!
+                content: commentContent,
+                parentCommentId: null // 일반 댓글이므로 null
+            });
+
+            if (response.status === 200) {
+                setCommentContent(""); // 입력창 비우기
+                // 성공 후 댓글 목록을 새로 불러오는 로직 필요 (예: onRefresh())
+            }
+        } catch (error) {
+            console.error("댓글 작성 실패:", error);
+        }
+    };
+
+    // 좋아요 토글
+    const handleLikeToggle = async () => {
+        try {
+            const userNum = localStorage.getItem("userNum");
+
+            const response = await axios.post(`/api/likes/${feed.id}`, {
+                userNum: parseInt(userNum),
+                targetType: "FEED"
+            });
+
+            if (response.data === true) {
+                setLiked(true);
+                setLikeCount(prev => prev + 1);
+            } else {
+                setLiked(false);
+                setLikeCount(prev => prev - 1);
+            }
+        } catch (error) {
+            console.error("좋아요 처리 실패:", error);
+        }
+    };
 
     return (
         <article className="y2k-container" style={{ width: '500px' }}>
@@ -104,12 +154,34 @@ const FeedItem = ({ feed, onEdit, onDelete, onReport,onUserClick }) => {
             <div style={{ padding: '12px' }}>
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                     {/* DB에 필드가 없는 값은 기본값 0으로 처리 */}
-                    <button className="y2k-button" style={{ width: 'auto', padding: '5px 10px', margin: 0 }}>❤️ {feed.likes || 0}</button>
+                    <button
+                        className="y2k-button"
+                        onClick={handleLikeToggle}
+                        style={{
+                            width: 'auto',
+                            padding: '5px 10px',
+                            margin: 0,
+                            backgroundColor: liked ? '#ffb3ba' : '#c0c0c0', // 좋아요 누르면 연분홍색(Y2K 감성)
+                            color: liked ? 'red' : 'black'
+                        }}
+                    >
+                        {liked ? '❤️' : '🤍'} {likeCount}
+                    </button>
                     <button className="y2k-button" style={{ width: 'auto', padding: '5px 10px', margin: 0 }}>💬 {feed.comments || 0}</button>
                 </div>
                 <div style={{ fontSize: '0.9rem' }}>
                     <span style={{ fontWeight: 'bold' }}>{feed.userId}</span> {feed.content}
                 </div>
+                <form onSubmit={handleCommentSubmit} style={{ display: 'flex', gap: '5px', marginTop:"10px" }}>
+                    <input
+                        className="y2k-input"
+                        value={commentContent}
+                        onChange={(e) => setCommentContent(e.target.value)}
+                        placeholder="댓글을 입력하세요..."
+                        style={{ flex: 1, border: '1px solid black' }}
+                    />
+                    <button type="submit" className="y2k-button" style={{ width: '50px', height:"55px", padding:"10px", marginTop:"0px" }}>전송</button>
+                </form>
                 <div style={{ fontSize: '0.75rem', color: '#808080', marginTop: '8px' }}>{formattedDate}</div>
             </div>
         </article>

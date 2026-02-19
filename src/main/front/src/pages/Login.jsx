@@ -28,6 +28,7 @@ const Login = () => { // 2. (setPage) 인자 제거
                 alert("Retrogram에 오신 걸 환영합니다!");
                 // 로그인 정보를 로컬 스토리지에 저장
                 localStorage.setItem("user", response.data.userId);
+                localStorage.setItem("userNum", response.data.userNum);
                 window.location.href = "/main";
             }
         } catch (error) {

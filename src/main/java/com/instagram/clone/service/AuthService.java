@@ -2,7 +2,7 @@ package com.instagram.clone.service;
 
 import com.instagram.clone.entity.User;
 import com.instagram.clone.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.instagram.clone.controller;
 
 import com.instagram.clone.entity.User;
-import com.instagram.clone.dto.LoginRequest;
+import com.instagram.clone.dto.LoginRequestDto;
 import com.instagram.clone.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest) {
         try {
             User user = authService.login(loginRequest.getUserId(), loginRequest.getPassword());
             return ResponseEntity.ok(user);
